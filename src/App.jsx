@@ -163,7 +163,7 @@ export default function App() {
                     }`}
                   >
                     <div className="font-semibold text-gray-800">{item["ITEM NAME"]}</div>
-                    <div className="text-xs text-gray-500 mt-1">Policy: {item["SHOP POLICY"]}</div>
+                    <div className="text-sm text-gray-600 mt-1">Policy: {item["SHOP POLICY"]}</div>
                   </button>
                 </li>
               ))}
