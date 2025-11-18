@@ -87,8 +87,7 @@ export default function App() {
   }, [results]);
 
   const dropdownSuggestions = data
-    .filter((item) => item["ITEM NAME"]?.toLowerCase().includes(searchText.toLowerCase()))
-    .slice(0, 8);
+    .filter((item) => item["ITEM NAME"]?.toLowerCase().includes(searchText.toLowerCase()));
 
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900 p-6 font-sans">
@@ -112,7 +111,7 @@ export default function App() {
 
           {/* 🔽 DROPDOWN MENU */}
           {showDropdown && searchText && (
-            <div className="absolute left-0 right-0 bg-white shadow-lg border border-gray-200 rounded-lg mt-1 max-h-60 overflow-auto z-20">
+            <div className="absolute left-0 right-0 bg-white shadow-lg border border-gray-200 rounded-lg mt-1 max-h-80 overflow-auto z-20">
               {dropdownSuggestions.length === 0 && (
                 <div className="px-4 py-2 text-gray-500 text-sm">No matches</div>
               )}
