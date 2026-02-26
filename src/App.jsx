@@ -235,14 +235,14 @@ export default function App() {
                 </h2>
 
                 <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm">
-                  <h3 className="font-medium text-gray-700">Shop Policy</h3>
+                  <h3 className="font-medium text-gray-700">IF Policy (Factory Rate) </h3>
                   <p className="text-gray-600 mt-1">
                     {selected["SHOP POLICY"]}
                   </p>
                 </div>
 
                 <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm">
-                  <h3 className="font-medium text-gray-700">IPOD Policy</h3>
+                  <h3 className="font-medium text-gray-700">IPOD Policy (Shop Rate)</h3>
                   <p className="text-gray-600 mt-1">
                     {selected["IPOD POLICY"] || "—"}
                   </p>
