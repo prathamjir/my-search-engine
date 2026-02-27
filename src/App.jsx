@@ -72,12 +72,16 @@ export default function App() {
     return () => clearInterval(interval);
   }, [lastHash]);
 
+  const itemKey = Object.keys(data[0] || {}).find((k) =>
+    k.toUpperCase().includes("ITEM")
+  );
+
   const searchFields = [
-    "ITEM NAME",
+    itemKey,
     "SHOP POLICY",
     "IPOD POLICY",
     "REMARKS",
-  ];
+  ].filter(Boolean);
 
   const results = useMemo(() => {
     if (!query) return [];
@@ -90,27 +94,29 @@ export default function App() {
   useEffect(() => {
     if (results.length > 0) {
       setSelected(results[0]);
+    } else {
+      setSelected(null);
     }
   }, [results]);
 
   const dropdownSuggestions = searchText
     ? data.filter((item) =>
-        item["ITEM NAME"]?.toLowerCase().includes(searchText.toLowerCase())
+        item[itemKey]?.toLowerCase().includes(searchText.toLowerCase())
       )
     : [];
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <h1 className="text-3xl font-bold mb-6 text-indigo-700">
           SEARCH ENGINE
         </h1>
 
-        <div className="bg-white p-5 rounded-xl shadow border relative">
+        <div className="bg-white shadow-md rounded-xl p-5 mb-8 border border-gray-200 relative">
           <label className="text-sm font-medium text-gray-600">Search</label>
 
           <input
-            className="mt-2 w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"
+            className="mt-2 w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none shadow-sm"
             placeholder="Search ITEM NAME..."
             value={searchText}
             onChange={(e) => {
@@ -137,8 +143,8 @@ export default function App() {
                 e.preventDefault();
                 if (activeIndex >= 0) {
                   const item = dropdownSuggestions[activeIndex];
-                  setSearchText(item["ITEM NAME"]);
-                  setQuery(item["ITEM NAME"]);
+                  setSearchText(item[itemKey]);
+                  setQuery(item[itemKey]);
                 } else {
                   setQuery(searchText);
                 }
@@ -148,19 +154,13 @@ export default function App() {
           />
 
           {showDropdown && searchText && (
-            <div className="absolute left-0 right-0 bg-white shadow-lg border rounded-lg mt-1 max-h-80 overflow-auto z-50">
-              {dropdownSuggestions.length === 0 && (
-                <div className="px-4 py-2 text-gray-500 text-sm">
-                  No matches
-                </div>
-              )}
-
+            <div className="absolute left-0 right-0 bg-white shadow-lg border border-gray-200 rounded-lg mt-1 max-h-60 overflow-auto z-50">
               {dropdownSuggestions.map((item, idx) => (
                 <div
                   key={idx}
                   onClick={() => {
-                    setSearchText(item["ITEM NAME"]);
-                    setQuery(item["ITEM NAME"]);
+                    setSearchText(item[itemKey]);
+                    setQuery(item[itemKey]);
                     setShowDropdown(false);
                   }}
                   className={`px-4 py-2 cursor-pointer text-sm ${
@@ -169,7 +169,7 @@ export default function App() {
                       : "hover:bg-indigo-50"
                   }`}
                 >
-                  {item["ITEM NAME"]}
+                  {item[itemKey]}
                 </div>
               ))}
             </div>
@@ -180,44 +180,58 @@ export default function App() {
               setQuery(searchText);
               setShowDropdown(false);
             }}
-            className="mt-3 px-4 py-2 bg-indigo-600 text-white rounded-lg"
+            className="mt-3 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
           >
             Search
           </button>
 
-          {error && <p className="text-red-500 mt-2">{error}</p>}
+          {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
         </div>
 
-        <div className="bg-white rounded-xl shadow border p-6 mt-6 min-h-[300px]">
+        <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 min-h-[400px]">
           {!query ? (
-            <p className="text-gray-500 text-center">Search to see result</p>
+            <p className="text-gray-500 text-center mt-24">
+              Search to see result
+            </p>
           ) : !selected ? (
-            <p className="text-gray-500 text-center">No result found</p>
+            <p className="text-gray-500 text-center mt-24">
+              No result found
+            </p>
           ) : (
             <div>
               <h2 className="text-2xl font-bold text-indigo-700">
-                {selected["ITEM NAME"]}
+                {selected[itemKey]}
               </h2>
 
-              <div className="mt-4">
-                <h3 className="font-medium">IF Policy (Factory Rate)</h3>
-                <p>{selected["SHOP POLICY"]}</p>
+              <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm">
+                <h3 className="font-medium text-gray-700">
+                  IF Policy (Factory Rate)
+                </h3>
+                <p className="text-gray-600 mt-1">
+                  {selected["SHOP POLICY"]}
+                </p>
               </div>
 
-              <div className="mt-4">
-                <h3 className="font-medium">IPOD Policy (Shop Rate)</h3>
-                <p>{selected["IPOD POLICY"] || "—"}</p>
+              <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm">
+                <h3 className="font-medium text-gray-700">
+                  IPOD Policy (Shop Rate)
+                </h3>
+                <p className="text-gray-600 mt-1">
+                  {selected["IPOD POLICY"] || "—"}
+                </p>
               </div>
 
-              <div className="mt-4">
-                <h3 className="font-medium">Remarks</h3>
-                <p>{selected["REMARKS"] || "—"}</p>
+              <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm">
+                <h3 className="font-medium text-gray-700">Remarks</h3>
+                <p className="text-gray-600 mt-1">
+                  {selected["REMARKS"] || "—"}
+                </p>
               </div>
             </div>
           )}
         </div>
 
-        <footer className="text-center text-sm text-gray-500 mt-6">
+        <footer className="text-center text-sm text-gray-500 mt-8 mb-4">
           Created by PRATHAM
         </footer>
       </div>
