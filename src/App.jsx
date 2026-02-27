@@ -200,12 +200,12 @@ export default function App() {
               </h2>
 
               <div className="mt-4">
-                <h3 className="font-medium">Shop Policy</h3>
+                <h3 className="font-medium">IF Policy (Factory Rate)</h3>
                 <p>{selected["SHOP POLICY"]}</p>
               </div>
 
               <div className="mt-4">
-                <h3 className="font-medium">IPOD Policy</h3>
+                <h3 className="font-medium">IPOD Policy (Shop Rate)</h3>
                 <p>{selected["IPOD POLICY"] || "—"}</p>
               </div>
 
