@@ -113,18 +113,13 @@ export default function App() {
   }, [results, query]);
 
   // ✅ DROPDOWN SUGGESTIONS
-  // ✅ DROPDOWN SUGGESTIONS
   const dropdownSuggestions =
-    showDropdown
-      ? searchText.trim() === ""
-        ? data // 🔥 if empty (space pressed) show ALL items
-        : itemKey
-        ? data.filter((item) =>
-            (item[itemKey] || "")
-              .toLowerCase()
-              .includes(searchText.toLowerCase())
-          )
-        : []
+    searchText && itemKey
+      ? data.filter((item) =>
+          (item[itemKey] || "")
+            .toLowerCase()
+            .includes(searchText.toLowerCase())
+        )
       : [];
 
   return (
@@ -254,7 +249,7 @@ export default function App() {
               </div>
 
               <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm">
-                <h3 className="font-medium text-gray-700">Remarks</h3>
+                <h3 className="font-medium text-gray-700">Remarks (IF Policy Only)</h3>
                 <p className="text-gray-600 mt-1">
                   {selected["REMARKS"] || "—"}
                 </p>
